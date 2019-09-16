@@ -5,6 +5,8 @@
 ##
 ## June 2019: V1.1
 
+
+##Imports##
 try:
     from GSOF_ArduBridge import threadElectrodeSeq
 except ImportError:
@@ -12,28 +14,25 @@ except ImportError:
     class dummyThread():
         def __init__(self, nameID):
             self.name = nameID
-
 from GSOF_ArduBridge import threadBasic as bt
-
-##### NEMESYS ########
-import ctypes
-import sys
-import os
-import numpy
-
-qmixsdk_dir =  "C:/QmixSDK" #path to Qmix SDK
+import ctypes # control NeMYSES
+import sys # control NeMYSES
+import os # control NeMYSES
+import numpy # control NeMYSES
+qmixsdk_dir =  "C:/QmixSDK" #path to Qmix SDK, change if elsewhere
 sys.path.append(qmixsdk_dir + "/lib/python")
 os.environ['PATH'] += os.pathsep + qmixsdk_dir
 from qmixsdk import qmixbus
 from qmixsdk import qmixpump
 from qmixsdk import qmixvalve
 from qmixsdk.qmixbus import UnitPrefix, TimeUnit
-
 import time, copy
 #####################
 
 class Protocol(bt.BasicThread):
-
+    '''
+    This class is useless
+    '''
     def __init__(self, setup=False, nameID='DROP', Period=1, incTime=2*60):
         #super(StoppableThread, self).__init__()
         bt.BasicThread.__init__(self, Period=Period, nameID=nameID)
@@ -52,21 +51,21 @@ class Protocol(bt.BasicThread):
 
 
 class Setup():
-    def __init__(self, ExtGpio, gpio, chipViewer, Nemesys): ##SEQUENCES##
-
-
-
+    '''
+    This class defines all the electrode sequences.
+    Please add or edit sequences as you wish.
+    They can be called in the IDLE with: 'setup. '
+    Several NeMYSES syringe pump variables are also defined here. Please change according to your system.
+    '''
+    def __init__(self, ExtGpio, gpio, chipViewer, Nemesys):
         ###########^^^^^NEMESYS^^^^^^^^^^^##################
-        # >>>>>>> YOU CAN CHANGE THIS !! <<<<<<< #
+        # >>>>>>> Parameters !! <<<<<<< #
         deviceconfig="C:/QmixSDK/config/Nemesys_5units_20190308" ##deviceconfig="C:QmixSDK/config/NemesysSetup3syr" --> change path to device configuration folder if needed
         #>>>> change syringe parameters in dictionary: <<<<
         syringe_param={'syringe_diam':[7.28,3.26,3.26,3.26,3.26],
                         'syringe_stroke':[60,40,40,40,40]}
         self.DropletVolume= 0.00025073#-->  volume of 1 drop in microliter
-        #self.nem.init()
-        #self.protocol=
-        #>>>>>>>>>>>>>o<<<<<<<<<<<<<
-
+        #>>>>>>>>>>>>><<<<<<<<<<<<<
         self.gpio = gpio
         self.ExtGpio = ExtGpio
         self.chipViewer = chipViewer
@@ -528,7 +527,10 @@ class Setup():
 
         ######################################################################################################################
         ######################################################################################################################
-
+    '''
+    The following functions are standard to the ArduBridge protocol files,
+     in order to retrieve sequence lists
+    '''
     def catAdd(self, catName):
         if not catName in self.categoryDict.keys():
             self.categoryDict[catName] = [] #initializes list for each category
@@ -597,17 +599,19 @@ class Setup():
         for led in range(begin, end):
             self.ExtGpio.pinPulse(led, dt)
 
-####\/\/\/ EXTRA SEQ FUNCTIONS \/\/\/#####
-#### added by KS #########################
-##########################################
-
-####### droplet generation ###############
+    '''
+    The following functions are additional
+    to the standard ArduBridge protocol files, in order to
+    operate syringe pumps
+    '''
     def DropGenL(self,n=1,t=0,pumpID=0):
-        ################VALIDATED FOR 1 T JUNCTION#####################
-        #n is amount of repeats (drops)
-        #, t is wait time (d*Period, seconds),
-        # flrt is the flowrate
-        # and pumpID is the pump from which dispensing happens
+        '''
+        Generate droplets on the left T-junction
+                #n is amount of repeats (drops)
+                #, t is wait time (d*Period, seconds),
+                # flrt is the flowrate
+                # and pumpID is the pump from which dispensing happens
+        '''
         if type(t)==float:
             print "time needs to be an integer"
             return
@@ -642,20 +646,9 @@ class Setup():
 
 
     def DropGenR(self,n=1,t=0, pumpID=0,DropV=0.00025 ): #n is amount of repeats, d is wait time (d*Period, seconds)
-        '''
-        if type(t)==float:
-            print "time needs to be an integer"
-            return
-        print "making %d droplets" %(n)
-        print "waiting %d seconds between droplets" %(t)
-        DropGenRSeq = self.DropGenRSeq +[110]*t
-        self.seq['DropGenR'].elecList = DropGenRSeq
-        self.seq['DropGenR'].start(n)
-        totalvolume=self.DropletVolume*n #calculate totalvolume loss
-        print "total volume loss [uL]: " ,totalvolume
-        self.nem.pump_dispense(self.nem.pumpID(pumpID),totalvolume, flrt) #dispense totalvolume
-        print "....................."
-        '''
+    '''
+    Generate droplets on the right T-junction
+    '''
         if type(t)==float:
             print "time needs to be an integer"
             return
@@ -689,18 +682,11 @@ class Setup():
             time.sleep(droptime)
         print "....................."
 
-
-        """
-        DropGenRSeq = self.DropGenRSeq +[110]*t
-        self.seq['DropGenR'].elecList = DropGenRSeq
-        for i in range(n):
-          self.seq['DropGenR'].start(1)
-          print "making a drop"
-          self.nem.pump_dispense(self.nem.pumpID(pumpID), DropV, dropflowrate) #dispense totalvolume
-          print "resupplying w Nemesys done"
-        """
-
-    def DropGenD(self,n=1,t=0,flrt=0.000584, pumpID=0): #n is amount of repeats, d is wait time (d*Period, seconds)
+    def DropGenD(self,n=1,t=0,flrt=0.000584, pumpID=0):
+        '''
+        Generate droplets on the right T-junction
+        #n is amount of repeats, d is wait time (d*Period, seconds)
+        '''
         if type(t)==float:
             print "time needs to be an integer"
             return
@@ -714,11 +700,19 @@ class Setup():
         self.nem.pump_dispense(self.nem.pumpID(pumpID),totalvolume, flrt) #dispense totalvolume
         print "....................."
 
-####### droplet operations ##############
     def Encapsulate(self,nr):
+        '''
+        Function to encapsulate single-cells in specific trap.
+        Runs sequence E
+        '''
         self.seq['E%d'%(nr)].start(1)
         print "....................."
+
     def Encapsulateall(self,t=5):
+        '''
+        Function to encapsulate single-cells in multiple traps.
+        Runs sequence EA
+        '''
         EncapsulateAllSeq= copy.deepcopy(self.EncapsulateallSeq)
         self.seq['EA'].elecList = EncapsulateAllSeq
         period=float(t + 1)
@@ -731,15 +725,29 @@ class Setup():
         self.seq['EA'].start(1)
         print "....................."
     def Merge(self,nr):
+        '''
+        Function to merge roplets in specific trap.
+        Runs sequence M
+        '''
         self.seq['M%d'%(nr)].start(1)
         print "....................."
     def Release(self, nr, reverse=0):
+        '''
+        Function to release a droplet from a specific trap.
+        Uner forward or reversed flow
+        Runs sequence R
+        '''
         if reverse == 0:
             self.seq['R%d'%(nr)].start(1)
         else:
             self.seq['R%dr'%(nr)].start(1)
         print "....................."
     def Keep(self,nr,t=0.7):
+        '''
+        Function to Keep a droplet in specific trap.
+        under reversed flow
+        Runs sequence K
+        '''
         period=float(t + 1)
         print "period is %d seconds"%(period)
         self.seq['K%d'%(nr)].Period = period
@@ -750,6 +758,11 @@ class Setup():
         self.seq['K%d'%(nr)].start(1)
         print "....................."
     def KeepAllBut(self,nr,t=0.7):
+        '''
+        Function to Keep all droplets in traps, except ...
+        Under reversed flow.
+        Runs sequence KeepAllBut
+        '''
         KeepAllButSeq = copy.deepcopy(self.KeepAllButSeq)
         if nr > 0:
            del(KeepAllButSeq[nr-1]) #delete the electrode from the list
@@ -769,6 +782,11 @@ class Setup():
         print "....................."
 
 class Nem():
+    '''
+    Nemesys inner class.
+    All pump functions are defined here.
+    They can be called in the IDLE with: setup.nem.
+    '''
     ##NEM INNER CLASS##
     def __init__(self, Nemesys, Deviceconfig, Syringe_param):
         #self.setup=Setup()
@@ -776,12 +794,7 @@ class Nem():
         self.syringe_diam=Syringe_param['syringe_diam']
         self.syringe_stroke=Syringe_param['syringe_stroke']
 
-        if Nemesys==True:
-            #####EDIT###########################################################################################################
-            #pumpNameList = ["neMESYS_Low_Pressure_1_Pump", "neMESYS_Low_Pressure_2_Pump", "neMESYS_Low_Pressure_3_Pump"]
-            #syringe_diam=[3.26,3.26,3.26,3.26,3.26]
-            #syringe_stroke=[40,40,40,40,40]
-            ################################################################################################################
+        if Nemesys==True: #checking if Nemesys = true in ArduBridge
             print '>>>  <<<'
             print '>>>  nemesys  <<<'
             print '>>> Starting Nemesys Bridge communication... <<<'
@@ -824,9 +837,15 @@ class Nem():
             print "Nemesys is OFFLINE"
 
     def pumpID(self, pumpID):
+        '''
+        get pum object ID lists
+        '''
         return self.pumpsObjList[pumpID]
 
     def syringe_enable(self, pump):
+        '''
+        enable pumps one by one. This function is run  in nem init.
+        '''
         print pump
         if pump.is_in_fault_state():
             pump.clear_fault()
@@ -836,6 +855,9 @@ class Nem():
             print 'pump %s enabled'%(pump)
 
     def syringe_config(self, pump, InnerDiam, stroke):
+        '''
+        set syringe dimensions. This function is run  in nem init.
+        '''
         print "Configuring syringe %s..." %(pump)
         pump.set_syringe_param(InnerDiam,stroke)
         print "Reading syringe config..."
@@ -844,6 +866,9 @@ class Nem():
         print "%s %d mm max piston stroke" %(pump,syringe.max_piston_stroke_mm)
 
     def syringe_units(self, pump):
+        '''
+        set SI units. This function is run  in nem init.
+        '''
         print "Setting SI units %s ..." %(pump)
         pump.set_volume_unit(qmixpump.UnitPrefix.micro, qmixpump.VolumeUnit.litres)
         pump.set_flow_unit(qmixpump.UnitPrefix.micro, qmixpump.VolumeUnit.litres, qmixpump.TimeUnit.per_second)
@@ -852,9 +877,10 @@ class Nem():
         max_ul_s = pump.get_flow_rate_max()
         print "Max. flow: ", max_ul_s
 
-    ##FOR SHELL SHELL
-    #setup.nem.enable(setup.nem.pumpID(0))
     def pump_generate_flow(self, pump, flow):
+        '''
+        continuous flow
+        '''
         print "Generating flow from %s ..." %(pump)
         pump.generate_flow(flow)
         time.sleep(1)
@@ -890,18 +916,26 @@ class Nem():
             print 'done'
 
     def pump_stop(self, pump):
+        '''
+        stop movement specific pump
+        '''
         pump.stop_pumping()
         print'stopped pump %s ' %(pump)
 
     def pump_stop_all(self):
+        '''
+        stop movement all pumps
+        '''
         for pump in self.pumpsObjList:
           self.pump_stop(pump)
         print'stopped all pumps'
 
-    #static method
     def wait_dosage_finished(self, pump, timeout_seconds):
-        #The function waits until the last dosage command has finished
-        #until the timeout occurs.
+        '''
+        static method
+        The function waits until the last dosage command has finished
+        until the timeout occurs.
+        '''
         timer = qmixbus.PollingTimer(timeout_seconds * 1000)
         message_timer = qmixbus.PollingTimer(500)
         result = True
@@ -913,10 +947,12 @@ class Nem():
             result = pump.is_pumping()
         return not result
 
-    #static method
     def wait_calibration_finished(self,pump, timeout_seconds):
-        #The function waits until the given pump has finished calibration or
-        #until the timeout occurs.
+        '''
+        static method
+        The function waits until the given pump has finished calibration or
+        until the timeout occurs.
+        '''
         timer = qmixbus.PollingTimer(timeout_seconds * 1000)
         result = False
         while (result == False) and not timer.is_expired():
@@ -925,10 +961,11 @@ class Nem():
         return result
 
     def pump_calibration(self, pump):
+        '''
+        used to perform a reference move with pumps
+        '''
         print "Calibrating pump..."
         pump.calibrate()
         time.sleep(0.2)
         calibration_finished = self.wait_calibration_finished(pump, 30)
         print "Pump calibrated: ", calibration_finished
-
-    ####END NEM INNER CLASS####

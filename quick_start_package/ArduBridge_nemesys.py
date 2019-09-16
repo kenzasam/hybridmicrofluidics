@@ -44,19 +44,16 @@ def tempTC1047(pin=0, vcc=5.0):
 if __name__ == "__main__":
     #\/\/\/ CHANGE THESE PARAMETERS \/\/\/##################################################
     ########################################################################################
-    #edit 24/11/18
     user= 'Kenza Samlali'
-    lib = 'protocol_KS_wizzardv4_nemesys5' #<--CHANGE PROTOCOL file name
+    lib = 'protocol_Hybrid_SingleCell_chip' #<--CHANGE to personal PROTOCOL file name
     protocol = __import__(lib) #don't touch
-    port = 'COM20' #<--Change to the correct COM-Port to access the Arduino
-    baudRate = 115200*2 #<--ArduBridge_V1.0 uses 115200 other versions use 230400 = 115200*2
-    ONLINE = True #<--True to enable work with real Arduino, False for simulation only.
-    PID1 = False #<--True / False to build a PID controller.
+    port = 'COM20' #<-- Change to the correct COM-Port to access the Arduino
+    baudRate = 115200*2 #<-- ArduBridge_V1.0 uses 115200 other versions use 230400 = 115200*2
+    ONLINE = True #<-- True to enable work with real Arduino, False for simulation only.
     ELEC_EN = True #False for simulation
     STACK_BUILD = [0x40,0x41,0x42,0x43,0x44,0x45]
     REMOTE_CTRL_PORT = 7010
-    NEMESYS= False #<-- True / False when user wants to use Nemesys pump throughpython.
-    GUI=False
+    NEMESYS= False #<-- True / False when user wants to use Nemesys pump through python.
     #deviceconfig="C:QmixSDK/config/NemesysSetup3syr" #--> change path to device configuration folder if needed
     #/\/\/\   PARAMETERS BLOCK END  /\/\/\################################################
     ######################################################################################
@@ -82,22 +79,6 @@ if __name__ == "__main__":
     ardu.Reset()
     print 'Stack and Ardu ready...\n'
 
-    if PID1 == True:
-        PID = threadPID.ArduPidThread(bridge=ardu,
-                                      nameID='PID',
-                                      Period=0.5,   #Period-time of the control-loop
-                                      fbPin=1,      #The feedback pin (sensor)
-                                      outPin=3,     #The output pin (driver)
-                                      dirPin=9      #The direction pin for the H-bridge
-                                      )
-        PID.PID.Kp = 30
-        PID.PID.Ki = 1.2
-        PID.PID.Kd = 0.0
-        PID.addViewer('UDP',udpSendPid.Send)
-        PID.enIO(True)
-        ardu.gpio.pinMode(9,0)
-        print 'type PID.start() to start the PID thread\n'
-
     #######NEMESYS##################
     #if NEMESYS==True:
     #    nemesysprot = __import__("Nemesys_Bridge")  #--> change protocol file if needed
@@ -114,7 +95,7 @@ if __name__ == "__main__":
     print 'LOADED PROTOCOL: using %s'%(lib)
     print ''
 
-    if (lib =='protocol_KS_wizzardv4_nemesys') or (lib =='protocol_KS_wizzardv4_nemesys5') : 
+    if (lib =='protocol_Hybrid_SingleCell_chip'):
       print 'You are using the NeMESYS syringe pump protocol'
       print 'Change the device config file if needed'
       print 'Change the NeMESYS to True or False to go online'
@@ -123,24 +104,6 @@ if __name__ == "__main__":
       print ''
       setup = protocol.Setup(ExtGpio=ExtGpio, gpio=ardu.gpio, chipViewer=udpSendChip.Send, Nemesys=NEMESYS)
       print ''
-      if GUI == True:
-          gui=__import__('GUI_KS_Nemesys.GUI_KS_SC_nemesys')
-          print 'Start ChipViewer to control droplet movement.'
-
-    elif lib =='protocol_KS_spe':
-      setup = protocol.Setup(ExtGpio=ExtGpio, gpio=ardu.gpio, chipViewer=udpSendChip.Send, magPin=8)
-      print 'PARAMETERS OF %s:'%(lib)
-      print 'incubation time (sec): %d'%(prot.incTime)
-      print 'number of elutions: %d'%(prot.Elutions)
-      print 'EBtime: %d'%(prot.EBtime)
-      print 'EB2time: %d'%(prot.EB2time)
-      print ''
-      print 'Please change parameters in your protocol file %s if needed'%(lib)
-      print ''
-      print 'Be sure to connect the Solenoid to Pin %d'%(setup.magPin)
-      print ''
-      print 'type prot.start() to run protocol.'
-      print 'Start GUI or ChipViewer to control droplet movement.'
 
     else:
       setup = protocol.Setup(ExtGpio=ExtGpio, gpio=ardu.gpio, chipViewer=udpSendChip.Send)

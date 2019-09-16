@@ -6,11 +6,6 @@
 ### Sequence selector channel by Laura Lecrerc's LLGUI
 #-------------------------------------------------------------------
 ## >>> VERSIONS <<< ##
-# v 0.1.0 - copy from Laura, adding extra function buildButtons
-# v 1.0.0 - Droplet Generation buttons and functions, Droplet operations buttons and FUNCTIONS
-# v 1.1.0 - Bug Fixes (error window popups when buttons pressed, integrating KeepAll in KeepAllBut)
-# v 2.0.0 - Nemesys integration
-# v 2.1.0 - Full pump integration
 # v 2.2.0 - Add up to 5 pumps
 # v 3.0.0 - Reorganized code architecture, split up in classes
 #-------------------------------------------------------------------
@@ -18,7 +13,6 @@
 #-------------------------------------------------------------------
 ###>>>TO DO <<<###
 # fix start flow buttons of other flow
-
 
 
 import wx, os, sys

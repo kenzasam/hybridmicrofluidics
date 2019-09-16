@@ -4,15 +4,15 @@
 
 ## Contributions and license
 All Python dependencies were written by Guy Soffer (GSOF_) <br>
-ArduBridge, protocol file and ChipViewer are part of the GSOF package, and were editted by Kenza Samlali <br>
+ArduBridge, protocol file and ChipViewer are part of the GSOF package, and were edited by Kenza Samlali <br>
 GUI was written by Kenza Samlali, inspired by Laura Leclerc's LL_GUI. <br>
 Syringe pump integration was written by Kenza Samlali. <br>
-Syringe pump python dependencies are not published here. The SDK can be aqcuired through CETONI. <br>
+Syringe pump python dependencies are not published here. The SDK can be acquired through CETONI. <br>
 
 ## 1. About the content
 ArduBridge - The main python file. <br>
 Protocol - User dependent file. This file contains specific sequences of electrode actuation, functions and code that is related to one specific user or chip. It also includes a syringe pump class. <br>
-ChipViewer and cfg - The ChipViewer is a graphical user interface that shows electrode actuation on a map, and alows users to turn single electrodes on and off.<br>
+ChipViewer and cfg - The ChipViewer is a graphical user interface that shows electrode actuation on a map, and allows users to turn single electrodes on and off.<br>
 GUI - A graphical user interface for operating a single-cell encapsulating hybrid microfluidic device. <br>
 
 ## 2. User Guide
@@ -21,7 +21,7 @@ GUI - A graphical user interface for operating a single-cell encapsulating hybri
 1. Download the quick_start package and unzip.
 2. Make sure your system is set up. [See installation guide](../install_guide.md).
 2. Change the path in the ChipViewer batch file, to point to the chipviewer exe
-3. Change the path to your protocol, the COM port, and other settings in ArduBridge
+3. Change the path to your protocol, the COM port, and other settings in ArduBridge and protocol files.
 
 ### How to edit
 **Each time you redesign your chip or experiment:**

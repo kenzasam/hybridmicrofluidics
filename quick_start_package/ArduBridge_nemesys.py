@@ -17,9 +17,6 @@ from GSOF_ArduBridge import ArduBridge
 from GSOF_ArduBridge import ElectrodeGpioStack
 from GSOF_ArduBridge import threadPID
 from GSOF_ArduBridge import UDP_Send
-##qmixsdk_dir = "C:/QmixSDK" #path to Qmix SDK
-#sys.path.append(qmixsdk_dir + "/lib/python")
-#os.environ['PATH'] += os.pathsep + qmixsdk_dir
 
 def extEval(s):
     s=str(s)
@@ -42,23 +39,23 @@ def tempTC1047(pin=0, vcc=5.0):
     T = 100*(v -0.5)
 
 if __name__ == "__main__":
-    #\/\/\/ CHANGE THESE PARAMETERS \/\/\/##################################################
+    #\/\/\/ PARAMETERS BLOCK \/\/\/##################################################
     ########################################################################################
     user= 'Kenza Samlali'
     lib = 'protocol_Hybrid_SingleCell_chip' #<--CHANGE to personal PROTOCOL file name
-    protocol = __import__(lib) #don't touch
     port = 'COM20' #<-- Change to the correct COM-Port to access the Arduino
     baudRate = 115200*2 #<-- ArduBridge_V1.0 uses 115200 other versions use 230400 = 115200*2
     ONLINE = True #<-- True to enable work with real Arduino, False for simulation only.
     ELEC_EN = True #False for simulation
     STACK_BUILD = [0x40,0x41,0x42,0x43,0x44,0x45]
     REMOTE_CTRL_PORT = 7010
-    NEMESYS= False #<-- True / False when user wants to use Nemesys pump through python.
-    #deviceconfig="C:QmixSDK/config/NemesysSetup3syr" #--> change path to device configuration folder if needed
+    NEMESYS= True #<-- True / False when user wants to use Nemesys pump through python.
     #/\/\/\   PARAMETERS BLOCK END  /\/\/\################################################
     ######################################################################################
-
+    protocol = __import__(lib)
+    """ FOR USE WITH pid:
     udpSendPid = UDP_Send.udpSend(nameID='', DesIP='127.0.0.1', DesPort=6000)
+    """
     udpSendChip = UDP_Send.udpSend(nameID='', DesIP='127.0.0.1', DesPort=6001)
     udpConsol = False
     if REMOTE_CTRL_PORT > 1:
@@ -78,15 +75,23 @@ if __name__ == "__main__":
     ExtGpio.init()
     ardu.Reset()
     print 'Stack and Ardu ready...\n'
-
-    #######NEMESYS##################
-    #if NEMESYS==True:
-    #    nemesysprot = __import__("Nemesys_Bridge")  #--> change protocol file if needed
-    #    nem=nemesysprot.nemesys(cfg=deviceconfig)
-    #    print 'Nemesys ready...'
-    ################################
-
-    ####extra####by####Kenza#############
+    """ FOR USE WITH pid:
+    if PID1 == True:
+        PID = threadPID.ArduPidThread(bridge=ardu,
+                                      nameID='PID',
+                                      Period=0.5,   #Period-time of the control-loop
+                                      fbPin=1,      #The feedback pin (sensor)
+                                      outPin=3,     #The output pin (driver)
+                                      dirPin=9      #The direction pin for the H-bridge
+                                      )
+        PID.PID.Kp = 30
+        PID.PID.Ki = 1.2
+        PID.PID.Kd = 0.0
+        PID.addViewer('UDP',udpSendPid.Send)
+        PID.enIO(True)
+        ardu.gpio.pinMode(9,0)
+        print 'type PID.start() to start the PID thread\n'
+    """
     print("/\  "*10)
     print("  \/"*10)
     print 'Now: %s'%(time.strftime("%Y-%m-%d %H:%M"))
@@ -96,7 +101,7 @@ if __name__ == "__main__":
     print ''
 
     if (lib =='protocol_Hybrid_SingleCell_chip'):
-      print 'You are using the NeMESYS syringe pump protocol'
+      print 'The protocol you are using, requires the NeMESYS syringe pump add-on'
       print 'Change the device config file if needed'
       print 'Change the NeMESYS to True or False to go online'
       print ''
@@ -107,7 +112,7 @@ if __name__ == "__main__":
 
     else:
       setup = protocol.Setup(ExtGpio=ExtGpio, gpio=ardu.gpio, chipViewer=udpSendChip.Send)
-    
+
     print("/\  "*10)
     print("  \/"*10)
     #########################

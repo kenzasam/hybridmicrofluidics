@@ -1,12 +1,12 @@
-## Protocol Kenza Smalali
-## INTENDED USE:
-##
-## REMARKS:
-##
-## June 2019: V1.1
+"""
+Script to run hybrid microfluidics device.
 
+By:Kenza Samlali
 
-##Imports##
+June 2019: V1.1
+"""
+
+#ArduBridge modules
 try:
     from GSOF_ArduBridge import threadElectrodeSeq
 except ImportError:
@@ -15,10 +15,13 @@ except ImportError:
         def __init__(self, nameID):
             self.name = nameID
 from GSOF_ArduBridge import threadBasic as bt
-import ctypes # control NeMYSES
-import sys # control NeMYSES
-import os # control NeMYSES
-import numpy # control NeMYSES
+import time, copy
+
+#Syringe pump modules
+import ctypes
+import sys
+import os
+import numpy
 qmixsdk_dir =  "C:/QmixSDK" #path to Qmix SDK, change if elsewhere
 sys.path.append(qmixsdk_dir + "/lib/python")
 os.environ['PATH'] += os.pathsep + qmixsdk_dir
@@ -26,8 +29,6 @@ from qmixsdk import qmixbus
 from qmixsdk import qmixpump
 from qmixsdk import qmixvalve
 from qmixsdk.qmixbus import UnitPrefix, TimeUnit
-import time, copy
-#####################
 
 class Protocol(bt.BasicThread):
     '''
@@ -58,14 +59,12 @@ class Setup():
     Several NeMYSES syringe pump variables are also defined here. Please change according to your system.
     '''
     def __init__(self, ExtGpio, gpio, chipViewer, Nemesys):
-        ###########^^^^^NEMESYS^^^^^^^^^^^##################
-        # >>>>>>> Parameters !! <<<<<<< #
-        deviceconfig="C:/QmixSDK/config/Nemesys_5units_20190308" ##deviceconfig="C:QmixSDK/config/NemesysSetup3syr" --> change path to device configuration folder if needed
-        #>>>> change syringe parameters in dictionary: <<<<
+        # >>>>>>> PARAMETERS BLOCK  <<<<<<< #
+        deviceconfig="C:/QmixSDK/config/Nemesys_5units_20190308" #--> change path to device configuration folder if needed
         syringe_param={'syringe_diam':[7.28,3.26,3.26,3.26,3.26],
-                        'syringe_stroke':[60,40,40,40,40]}
-        self.DropletVolume= 0.00025073#-->  volume of 1 drop in microliter
-        #>>>>>>>>>>>>><<<<<<<<<<<<<
+                        'syringe_stroke':[60,40,40,40,40]} # --> change syringe parameters, in mm
+        self.DropletVolume= 0.00025073#-->  change to volume of 1 drop in microliter
+        #>>>>>>>>>>>>>> PARAMETER BLOCK END  <<<<<<<<<<<<<<
         self.gpio = gpio
         self.ExtGpio = ExtGpio
         self.chipViewer = chipViewer
@@ -92,10 +91,8 @@ class Setup():
         seqList = [[61,84],[84,67],[67,90],[66,61]] #<-- EDIT THIS
         seqOnTime=0.7 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Generate'  #<-- EDIT THIS
         seqName = 'DropGenR'  #<-- EDIT THIS
@@ -103,10 +100,8 @@ class Setup():
         seqList = [[4,27],[10,27],[33,10],[33,9],[4]] #<-- EDIT THIS
         seqOnTime=0.7 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Generate'  #<-- EDIT THIS
         seqName = 'DropGenD'  #<-- EDIT THIS
@@ -118,6 +113,12 @@ class Setup():
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
         ######################################################################################################################
+        """
+        Encapsulate allows you to encapsulate cells in droplets.
+        It actuates electrode 3 under a specific trap.
+        This function has been tested under flowrates of 0.004uL/s
+        It is recommended to use manual actuation through ChipViewer.
+        """
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Encapsulate'  #<-- EDIT THIS
         seqName = 'E6'  #<-- EDIT THIS
@@ -126,10 +127,8 @@ class Setup():
         seqList = a#<-- EDIT THIS
         seqOnTime=0.7 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Encapsulate'  #<-- EDIT THIS
         seqName = 'E5'  #<-- EDIT THIS
@@ -138,10 +137,8 @@ class Setup():
         seqList = a#<-- EDIT THIS
         seqOnTime=0.7 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Encapsulate'  #<-- EDIT THIS
         seqName = 'E4'  #<-- EDIT THIS
@@ -150,10 +147,8 @@ class Setup():
         seqList = a #<-- EDIT THIS
         seqOnTime=0.7 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Encapsulate'  #<-- EDIT THIS
         seqName = 'E3'  #<-- EDIT THIS
@@ -162,10 +157,8 @@ class Setup():
         seqList =  a#<-- EDIT THIS
         seqOnTime=0.7 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Encapsulate'  #<-- EDIT THIS
         seqName = 'E2'  #<-- EDIT THIS
@@ -174,10 +167,8 @@ class Setup():
         seqList = a #<-- EDIT THIS
         seqOnTime=0.7 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Encapsulate'  #<-- EDIT THIS
         seqName = 'E1'  #<-- EDIT THIS
@@ -186,10 +177,13 @@ class Setup():
         seqList =  a#<-- EDIT THIS
         seqOnTime=0.9 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1.1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
         ############################################################################################################
+        """
+        Merge function allows you to merge a droplet with a trapped droplet, or
+        allows you to trap a droplet.
+        """
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Merge'  #<-- EDIT THIS
         seqName = 'M6'  #<-- EDIT THIS
@@ -198,10 +192,8 @@ class Setup():
         seqList = a#<-- EDIT THIS
         seqOnTime=0.7 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Merge'  #<-- EDIT THIS
         seqName = 'M5'  #<-- EDIT THIS
@@ -210,10 +202,8 @@ class Setup():
         seqList = a#<-- EDIT THIS
         seqOnTime=0.7 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Merge'  #<-- EDIT THIS
         seqName = 'M4'  #<-- EDIT THIS
@@ -222,10 +212,8 @@ class Setup():
         seqList = a #<-- EDIT THIS
         seqOnTime=0.7 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Merge'  #<-- EDIT THIS
         seqName = 'M3'  #<-- EDIT THIS
@@ -234,10 +222,8 @@ class Setup():
         seqList =  a#<-- EDIT THIS
         seqOnTime=0.7 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Merge'  #<-- EDIT THIS
         seqName = 'M2'  #<-- EDIT THIS
@@ -246,10 +232,8 @@ class Setup():
         seqList = a #<-- EDIT THIS
         seqOnTime=0.7 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Merge'  #<-- EDIT THIS
         seqName = 'M1'  #<-- EDIT THIS
@@ -260,6 +244,10 @@ class Setup():
         seqPeriod=1.1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
         # /\ **  END OF SEQUENCE  ** /\
         ####################################################################################################################
+        """
+        The Release function allows you to releasetrapped droplets bi-directionally,
+        depending on the direction of the flowrate.
+        """
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Release'  #<-- EDIT THIS
         seqName = 'R6'  #<-- EDIT THIS
@@ -269,10 +257,8 @@ class Setup():
         seqList = b#[::-1] #reversing sequencing
         seqOnTime=0.9 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1.1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Release'  #<-- EDIT THIS
         seqName = 'R5'  #<-- EDIT THIS
@@ -283,10 +269,8 @@ class Setup():
         seqList = b#[::-1]
         seqOnTime=0.9 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1.1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Release'  #<-- EDIT THIS
         seqName = 'R4'  #<-- EDIT THIS
@@ -296,10 +280,8 @@ class Setup():
         seqList = b#[::-1]
         seqOnTime=0.9 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1.1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Release'  #<-- EDIT THIS
         seqName = 'R3'  #<-- EDIT THIS
@@ -309,10 +291,8 @@ class Setup():
         seqList = b#[::-1]
         seqOnTime=0.9 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1.1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Release'  #<-- EDIT THIS
         seqName = 'R2'  #<-- EDIT THIS
@@ -322,10 +302,8 @@ class Setup():
         seqList = b#[::-1]
         seqOnTime=0.9 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1.1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Release'  #<-- EDIT THIS
         seqName = 'R1'  #<-- EDIT THIS
@@ -335,10 +313,9 @@ class Setup():
         seqList = b#[::-1]
         seqOnTime=0.9 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1.1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-                # \/ ** START OF SEQUENCE ** \/
+        # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Release'  #<-- EDIT THIS
         seqName = 'R6r'  #<-- EDIT THIS
         seqDesc = '6'  #<-- EDIT THIS
@@ -347,10 +324,8 @@ class Setup():
         seqList = b#[::-1] #reversing sequencing
         seqOnTime=0.9 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1.1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Release'  #<-- EDIT THIS
         seqName = 'R5r'  #<-- EDIT THIS
@@ -361,10 +336,8 @@ class Setup():
         seqList = c#[::-1]
         seqOnTime=0.9 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1.1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Release'  #<-- EDIT THIS
         seqName = 'R4r'  #<-- EDIT THIS
@@ -374,10 +347,8 @@ class Setup():
         seqList = b#[::-1]
         seqOnTime=0.9 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1.1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Release'  #<-- EDIT THIS
         seqName = 'R3r'  #<-- EDIT THIS
@@ -388,10 +359,8 @@ class Setup():
         seqList = c#[::-1]
         seqOnTime=0.9 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1.1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Release'  #<-- EDIT THIS
         seqName = 'R2r'  #<-- EDIT THIS
@@ -402,10 +371,8 @@ class Setup():
         seqList = c#[::-1]
         seqOnTime=0.9 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1.1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Release'  #<-- EDIT THIS
         seqName = 'R1r'  #<-- EDIT THIS
@@ -416,10 +383,12 @@ class Setup():
         seqList = c#[::-1]
         seqOnTime=0.9 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1.1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
         ####################################################################################################
+        """
+        The Keep function allows you to Keep droplets in traps under reversed flowrates
+        """
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Keep'  #<-- EDIT THIS
         seqName = 'K6'  #<-- EDIT THIS
@@ -429,10 +398,8 @@ class Setup():
         seqList = b #<-- EDIT THIS
         seqOnTime=0.7 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Keep'  #<-- EDIT THIS
         seqName = 'K5'  #<-- EDIT THIS
@@ -442,10 +409,8 @@ class Setup():
         seqList = b #<-- EDIT THIS
         seqOnTime=0.7 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Keep'  #<-- EDIT THIS
         seqName = 'K4'  #<-- EDIT THIS
@@ -455,10 +420,8 @@ class Setup():
         seqList = b #<-- EDIT THIS
         seqOnTime=0.7 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Keep'  #<-- EDIT THIS
         seqName = 'K3'  #<-- EDIT THIS
@@ -468,7 +431,6 @@ class Setup():
         seqList = b #<-- EDIT THIS
         seqOnTime=0.7 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
 
@@ -481,10 +443,8 @@ class Setup():
         seqList = b #<-- EDIT THIS
         seqOnTime=0.7 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Keep'  #<-- EDIT THIS
         seqName = 'K1'  #<-- EDIT THIS
@@ -494,10 +454,12 @@ class Setup():
         seqList = b #<-- EDIT THIS
         seqOnTime=0.7 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
+        """
+        The Keep All But One function allows you to release one droplet under hydrodynamic flow
+        but maintain the other ones in their traps.
+        """
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Keep all but one'  #<-- EDIT THIS
         seqName = 'KeepAllBut'  #<-- EDIT THIS
@@ -507,11 +469,13 @@ class Setup():
         seqList = b # <-- Electrodes 1 and 2 actuated at same time. 3 actuated after 1 and 2.
         seqOnTime=0.7 # <-- How long is the electrode actuated [Sec]
         seqPeriod=1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
-
+        """
+        The Encapsulate All function allows you to Encapsulate all cells in one go,
+        by actuating the trap electrode simultaniously for all traps for a specific time.
+        Do this if you don't creat satelite droplets.
+        """
         # \/ ** START OF SEQUENCE ** \/
         seqCategory = 'Encapsulate all'  #<-- EDIT THIS
         seqName = 'EA'  #<-- EDIT THIS
@@ -520,10 +484,8 @@ class Setup():
         seqList = b # <-- Electrodes 1 and 2 actuated at same time. 3 actuated after 1 and 2.
         seqOnTime= 0.7 # <-- How long is the electrode actuated [Sec]
         seqPeriod= 1 # <-- Keep this at least 0.2 seconds above onTime [Sec]
-
         self.seqAdd(seqCategory, seqName, seqDesc, seqList, seqPeriod, seqOnTime, ExtGpio, chipViewer) #DON'T EDIT
         # /\ **  END OF SEQUENCE  ** /\
-
 
         ######################################################################################################################
         ######################################################################################################################
@@ -644,7 +606,6 @@ class Setup():
           time.sleep(droptime)
         print "....................."
 
-
     def DropGenR(self,n=1,t=0, pumpID=0,DropV=0.00025 ): #n is amount of repeats, d is wait time (d*Period, seconds)
     '''
     Generate droplets on the right T-junction
@@ -670,7 +631,6 @@ class Setup():
         print'droplet flowrate: %f sec' %(dropflowrate)
         if dropflowrate < 0.0008:
             dropflowrate=0.001
-
         self.nem.pump_dispense(self.nem.pumpID(pumpID), n*DropletVolume, dropflowrate) # dispense function waits x secs before next line can start
         #Loop: (resupply one drop with Nem, Actuate and wait) x n times
         for i in range(n):

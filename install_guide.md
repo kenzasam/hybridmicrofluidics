@@ -1,18 +1,20 @@
 # Hybrid Microfluidics Software Package
 
-by Kenza Samlali
+***by Kenza Samlali, 2019***
 
 ## 1. About the content
-GSOF_ardubridge
- 
+quick_start_package: This package is an add-on to GSOF_ArduBridge. It uses ArduBridge dependencies to operate a hybrid microfluidic chip.
+
+You need GSOF_ardubridge to be installed!!
+
 #### System requirements:
-Windows XP or up
+Windows XP or up, Mac OS. (Did not test with Linux, but should be easy to adapt to it)
 Python 2.7
 
 ## 2. User Install Guide
 
 ### How to set up
-1. Download the software package and unzip.
+1. Download the[ArduBridge](https://bitbucket.org/shihmicrolab/gsof_ardubridge/src/master/) software package and unzip.
 2. Make sure your system is set up correctly for the software. [See system setup](### System setup)
 3. Open the GSOF folder > ArduBridge, and locate setup.py
 4. Run setup.py using IDLE. This will install all dependencies.
@@ -22,13 +24,13 @@ Python 2.7
 8. You're now ready to roll!
 
 ### System setup
-1. Install Python 2.7. Our software has ben tested on Python 2.7, so we recommend this.
+1. Install Python 2.7. Our software has been tested on Python 2.7, so we recommend this. Python 3 versions will be up soon.
 2. There are several extra packages required for you to be able to use the Chipviewer, GUI, or even ArduBridge.
 We recommend installation of Pip (a package manager). If you already have Pip (included in Py>2.7 and Py3), skip this step.
 [Tutorial](https://pip.pypa.io/en/stable/installing/). Also, add pip to your env vars if needed. (python/scripts)
 3. You can check which version of pip is installed like this: `pip -V` <br>
 You can update pip like this: `pip install --upgrade pip`
-4. Install following packages:
+4. For the Hybrid Microfluidics add on package, install following packages:
 pyserial, wxpython, tkinter, pyperclip, numpy <br>
 for nemesys stuff on python 2.7: enum34 <br>
 use the folowing command: `pip install ...` <br>

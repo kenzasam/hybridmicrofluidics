@@ -1,8 +1,3 @@
-
-==========
-Hybrid Microfluidics Quick Start Package
-==========
-
 Author
 ======
 Kenza Samlali<br>

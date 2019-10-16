@@ -21,17 +21,18 @@ This work was done as part of my Ph.D. under the supervision of Dr. Steve Shih, 
 
 Documentation
 =============
-In this Repository (hybrid_microfluidics_Samlali_etal):
+In this Repository (hybrid_microfluidics_Samlali_etal):   
 
+ - Comments inside the code
  - installation_guide.md: Installation of Python, Pip, the right packages, installation of ArduBridge, and installation of quick_start_package.
  - user_guide.md : How to use the Hybrid quick start package
- - tropubleshooting_guide.md : How to troubleshoot your hybrid system.
- - Hardware diagrams 
+ - troubleshooting_guide.md : How to troubleshoot your hybrid system.
+ - Block diagrams: Information on software architecture and hardware setup
  
 In the ArduBridge Repository:
 
 - Comments inside the code
-- UDP diagrams
+- UML disgrams
 - README.txt: info and installation 
 
 Examples

@@ -1,15 +1,14 @@
-
 """
 Script to build an ArduBridge environment
 To customize the environment to your needs. You will need to change
-he parameters in the "PARAMETER BLOCK" in the __main__ section
+the parameters in the "PARAMETER BLOCK" in the __main__ section
 
 By: Guy Soffer
+See the ArduBridge repository https://bitbucket.org/shihmicrolab/
+
 Edited by KS to incorporate Nemesys ability
-
-
 """
-########## RUN CHIPVIEWER AND LLGUI AFTER RUNNING THIS FILE ##########
+
 #Basic modules to load
 import time
 from GSOF_ArduBridge import udpControl
@@ -42,18 +41,18 @@ if __name__ == "__main__":
     #\/\/\/ PARAMETERS BLOCK \/\/\/##################################################
     ########################################################################################
     user= 'Kenza Samlali'
-    lib = 'protocol_Hybrid_SingleCell_chip' #<--CHANGE to personal PROTOCOL file name
-    port = 'COM20' #<-- Change to the correct COM-Port to access the Arduino
+    lib = 'protocol_Hybrid_SingleCell_chip' #<--CHANGE to the exact name of personal PROTOCOL file (in the same directory as ArduBridge)
+    port = 'COM20' #<-- Change to the correct COM-Port, to which Arduino is connected
     baudRate = 115200*2 #<-- ArduBridge_V1.0 uses 115200 other versions use 230400 = 115200*2
     ONLINE = True #<-- True to enable work with real Arduino, False for simulation only.
-    ELEC_EN = True #False for simulation
-    STACK_BUILD = [0x40,0x41,0x42,0x43,0x44,0x45]
-    REMOTE_CTRL_PORT = 7010
-    NEMESYS= True #<-- True / False when user wants to use Nemesys pump through python.
+    ELEC_EN = True #<-- False for simulation
+    STACK_BUILD = [0x40,0x41,0x42,0x43,0x44,0x45] #<-- adresses of Port Expanders (driving optocouplers) on electrode driver boards
+    REMOTE_CTRL_PORT = 7010 #<-- UDP setting
+    NEMESYS= True #<-- True when user wants to use syringe pump through python, False if external software is used.
     #/\/\/\   PARAMETERS BLOCK END  /\/\/\################################################
     ######################################################################################
     protocol = __import__(lib)
-    """ FOR USE WITH pid:
+    """ To include PID functionality uncomment this:
     udpSendPid = UDP_Send.udpSend(nameID='', DesIP='127.0.0.1', DesPort=6000)
     """
     udpSendChip = UDP_Send.udpSend(nameID='', DesIP='127.0.0.1', DesPort=6001)
@@ -75,7 +74,7 @@ if __name__ == "__main__":
     ExtGpio.init()
     ardu.Reset()
     print 'Stack and Ardu ready...\n'
-    """ FOR USE WITH pid:
+    """ To include PID functionality uncomment this:
     if PID1 == True:
         PID = threadPID.ArduPidThread(bridge=ardu,
                                       nameID='PID',

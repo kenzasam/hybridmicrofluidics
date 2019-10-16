@@ -1,9 +1,8 @@
 """
 Script to run hybrid microfluidics device.
+This script can and should be fully adapted to your system.
 
-By:Kenza Samlali
-
-June 2019: V1.1
+By: Kenza Samlali
 """
 
 #ArduBridge modules
@@ -55,8 +54,8 @@ class Setup():
     '''
     This class defines all the electrode sequences.
     Please add or edit sequences as you wish.
-    They can be called in the IDLE with: 'setup. '
-    Several NeMYSES syringe pump variables are also defined here. Please change according to your system.
+    They can be called in the python IDLE with: 'setup. '
+    Several syringe pump variables are also defined here. Please change according to your system.
     '''
     def __init__(self, ExtGpio, gpio, chipViewer, Nemesys):
         # >>>>>>> PARAMETERS BLOCK  <<<<<<< #

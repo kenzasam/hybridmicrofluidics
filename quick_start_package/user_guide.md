@@ -12,10 +12,10 @@ Syringe pump integration was written by Kenza Samlali. <br>
 Syringe pump python dependencies are not published here, and can be found [here](https://github.com/psyfood/pyqmix), under GPL v3. The Cetoni QmixSDK with Pump DLL library can be acquired through CETONI. <br>
 
 ## 1. About the content
-- ArduBridge.py: The main python file. <br>
-- Protocol.py: User dependent file. This file contains specific sequences of electrode actuation, functions and code that is related to one specific user or chip. It also includes a syringe pump class. <br>
-- wxChipViewer.bat and .cfg: The ChipViewer is a graphical user interface that shows electrode actuation on a map, and allows users to turn single electrodes on and off.<br>
-- Hybrid_GUI: A graphical user interface for operating a single-cell encapsulating hybrid microfluidic device. <br>  
+* ArduBridge.py: The main python file. <br>
+* Protocol.py: User dependent file. This file contains specific sequences of electrode actuation, functions and code that is related to one specific user or chip. It also includes a syringe pump class. <br>
+* wxChipViewer.bat and .cfg: The ChipViewer is a graphical user interface that shows electrode actuation on a map, and allows users to turn single electrodes on and off.<br>
+* Hybrid_GUI: A graphical user interface for operating a single-cell encapsulating hybrid microfluidic device. <br>  
 
 ## 2. User Guide
 
@@ -39,11 +39,11 @@ All the rest this software does, is giving biologists an easy entry to write scr
 5. Change the ChipViewer.cfg file: edit it with the coordinates of the electrodes on your Digital Microfluidic device. The numbers represent the specific electrode number.
 
 ### How or when to edit the software
-- **Each time you redesign your chip or experiment:**   
+* **Each time you redesign your chip or experiment:**   
 Edit the Protocol file, to include your sequences and functions.   
 Edit the cfg file with your electrode configuration.   
 
-- **Each time you run an experiment:**   
+* **Each time you run an experiment:**   
 Edit the ArduBridge file, depending on what hardware and protocol file you intend to use, and whether you want to work in simulation mode or not.  
 
 ### How to run and use the software

@@ -25,7 +25,7 @@ This work was done as part of my Ph.D. under the supervision of Dr. Steve Shih, 
 ## Documentation
 
 In this Repository (hybrid_microfluidics_Samlali_etal):  
- - quick_start_package: This is the hybrid microfluidics package, an add-on to [GSOF_ArduBridge](). Download this ZIP file.<br>
+ * quick_start_package: This is the hybrid microfluidics package, an add-on to [GSOF_ArduBridge](). Download this ZIP file.
  * install_guide.md: Instructions for installing [GSOF_]() and the hybrid microfluidics package.
  * troubleshooting_guide.md : Instructions for troubleshooting software and hardware issues.
  * Block diagrams: Information on software architecture and hardware setup

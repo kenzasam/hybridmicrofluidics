@@ -3,17 +3,19 @@
 *by Kenza Samlali*
 
 ## Contributions and license
-All Python dependencies were written by Guy Soffer (GSOF_) <br>
-ArduBridge, protocol file and ChipViewer are part of the GSOF package, and were editted by Kenza Samlali <br>
+This program is released under license GNU GPL v3.
+
+All Python dependencies were written by Guy Soffer (GSOF_ArduBridge) <br>
+ArduBridge, protocol file and ChipViewer are part of the [GSOF_ArduBridge package](), and were edited by Kenza Samlali <br>
 GUI was written by Kenza Samlali, inspired by Laura Leclerc's LL_GUI. <br>
 Syringe pump integration was written by Kenza Samlali. <br>
-Syringe pump python dependencies are not published here. The SDK can be aqcuired through CETONI. <br>
+Syringe pump python dependencies are not published here, and can be found [here](https://github.com/psyfood/pyqmix), under GPL v3. The Cetoni QmixSDK with Pump DLL library can be acquired through CETONI. <br>
 
 ## 1. About the content
-ArduBridge - The main python file. <br>
-Protocol - User dependent file. This file contains specific sequences of electrode actuation, functions and code that is related to one specific user or chip. It also includes a syringe pump class. <br>
-ChipViewer and cfg - The ChipViewer is a graphical user interface that shows electrode actuation on a map, and alows users to turn single electrodes on and off.<br>
-GUI - A graphical user interface for operating a single-cell encapsulating hybrid microfluidic device. <br>
+ArduBridge.py: The main python file. <br>
+Protocol.py: User dependent file. This file contains specific sequences of electrode actuation, functions and code that is related to one specific user or chip. It also includes a syringe pump class. <br>
+wxChipViewer.bat and .cfg: The ChipViewer is a graphical user interface that shows electrode actuation on a map, and allows users to turn single electrodes on and off.<br>
+Hybrid_GUI: A graphical user interface for operating a single-cell encapsulating hybrid microfluidic device. <br>
 
 ## 2. User Guide
 

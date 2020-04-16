@@ -1,9 +1,32 @@
-### SHIH Microfluidics lab, 2019
-### GUI to be used with ArduBridge and Protocol file
-###
-### On-Demand Channel operations, Single-Cell GUI, with Cetoni Nemesys low-pressure syringe pump integration
-### by Kenza Samlali
-### Sequence selector channel by Laura Lecrerc's LLGUI
+"""
+Copyright, 2020, Guy  Soffer, Kenza Samlali, Laura Leclerc
+"""
+
+"""
+This file is part of GSOF_ArduBridge.
+
+    GSOF_ArduBridge is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    GSOF_ArduBridge is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
+"""
+
+"""
+Hybrid GUI Version 2.2.0
+
+GUI to be used with ArduBridge and Protocol file
+
+On-Demand Channel operations, Single-Cell GUI, with Cetoni Nemesys low-pressure syringe pump integration
+by Kenza Samlali
+Sequence selector channel by Laura Lecrerc's LLGUI
 #-------------------------------------------------------------------
 ## >>> VERSIONS <<< ##
 # v 0.1.0 - copy from Laura, adding extra function buildButtons
@@ -18,7 +41,7 @@
 #-------------------------------------------------------------------
 ###>>>TO DO <<<###
 # fix start flow buttons of other flow
-
+"""
 
 
 import wx, os, sys

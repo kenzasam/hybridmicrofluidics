@@ -1,13 +1,28 @@
+"""
+Copyright, 2020, Guy  Soffer, Kenza Samlali
+"""
+
+"""
+This file is part of GSOF_ArduBridge.
+
+    GSOF_ArduBridge is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    GSOF_ArduBridge is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
+"""
 
 """
 Script to build an ArduBridge environment
 To customize the environment to your needs. You will need to change
 he parameters in the "PARAMETER BLOCK" in the __main__ section
-
-By: Guy Soffer
-Edited by KS to incorporate Nemesys ability
-
-
 """
 ########## RUN CHIPVIEWER AND LLGUI AFTER RUNNING THIS FILE ##########
 #Basic modules to load
@@ -114,7 +129,7 @@ if __name__ == "__main__":
     print 'LOADED PROTOCOL: using %s'%(lib)
     print ''
 
-    if (lib =='protocol_KS_wizzardv4_nemesys') or (lib =='protocol_KS_wizzardv4_nemesys5') : 
+    if (lib =='protocol_KS_wizzardv4_nemesys') or (lib =='protocol_KS_wizzardv4_nemesys5') :
       print 'You are using the NeMESYS syringe pump protocol'
       print 'Change the device config file if needed'
       print 'Change the NeMESYS to True or False to go online'
@@ -144,7 +159,7 @@ if __name__ == "__main__":
 
     else:
       setup = protocol.Setup(ExtGpio=ExtGpio, gpio=ardu.gpio, chipViewer=udpSendChip.Send)
-    
+
     print("/\  "*10)
     print("  \/"*10)
     #########################

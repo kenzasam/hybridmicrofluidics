@@ -31,7 +31,7 @@ Edit the Protocol file, to include your sequences and functions.<br>
 Edit the cfg file with your electrode configuration.<br>
 
 **Each time you run an experiment:**
-Edit the ArduBridge file , depening on what hardware and protocol file you intend to use <br>
+Edit the ArduBridge file , depending on what hardware and protocol file you intend to use <br>
 
 ### How to run and use
 1. Be sure your system is online. Arduino needs to be able to communicate with your PC and the optocouplers. Any additional instrument, like the pump system, needs to be online too.

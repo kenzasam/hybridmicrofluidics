@@ -2,18 +2,20 @@
 
 *by Kenza Samlali, 2019*
 
-## Contributions
-All Python dependencies of the ArduBridge package were written by Guy Soffer (See ArduBridge).   
-ArduBridge, protocol file and ChipViewer are part of the GSOF package, and were edited by Kenza Samlali, as seen in the Hybrid microfluidics quick start package.   
-GUI was written by Kenza Samlali, inspired by Laura Leclerc's LL_GUI.   
-Syringe pump integration was written by Kenza Samlali.  
-Syringe pump python dependencies are not published here. The SDK can be acquired through CETONI.  
+## Contributions and license
+This program is released under license GNU GPL v3.
+
+All Python dependencies were written by Guy Soffer (GSOF_ArduBridge) <br>
+ArduBridge, protocol file and ChipViewer are part of the [GSOF_ArduBridge package](), and were edited by Kenza Samlali <br>
+GUI was written by Kenza Samlali, inspired by Laura Leclerc's LL_GUI. <br>
+Syringe pump integration was written by Kenza Samlali. <br>
+Syringe pump python dependencies are not published here, and can be found [here](https://github.com/psyfood/pyqmix), under GPL v3. The Cetoni QmixSDK with Pump DLL library can be acquired through CETONI. <br>
 
 ## 1. About the content
-- ArduBridge - The main python file. Contains settings on the COM port of the Arduino, and communication   
-- Protocol - User dependent file. This file contains specific sequences of electrode actuation, functions and code that is related to one specific user or chip. It also includes a syringe pump class. Eventually we will make a seperate dependency of the syringe pump class.   
-- ChipViewer and cfg - The ChipViewer is a graphical user interface that shows electrode actuation on a map, and allows users to turn single electrodes on and off.   
-- GUI - A graphical user interface for operating a single-cell encapsulating hybrid microfluidic device.   
+- ArduBridge.py: The main python file. <br>
+- Protocol.py: User dependent file. This file contains specific sequences of electrode actuation, functions and code that is related to one specific user or chip. It also includes a syringe pump class. <br>
+- wxChipViewer.bat and .cfg: The ChipViewer is a graphical user interface that shows electrode actuation on a map, and allows users to turn single electrodes on and off.<br>
+- Hybrid_GUI: A graphical user interface for operating a single-cell encapsulating hybrid microfluidic device. <br>  
 
 ## 2. User Guide
 
@@ -23,7 +25,7 @@ ArduBridge was designed specifically for running with our automation setup and d
 Next, you will want to make a microfluidic device, in such way that you can assign one number to each electrode.   
 
 We realize the setup of a microfluidic system is not easy, and many possible hardware designs are out there. For an Open Source alternative, we can point to OpenDrop.   
-Most systems however rely on the same basics: a microcontroller, connected to port expanders, connected to optocouplers that open up the path for high AC voltage to reach electrodes. 
+Most systems however rely on the same basics: a microcontroller, connected to port expanders, connected to optocouplers that open up the path for high AC voltage to reach electrodes.
 This software is written in a way that you could easily change the prot expander adresses, and adapt it to your own "numbering" system.   
 All the rest this software does, is giving biologists an easy entry to write scripts for automation of microfluidic procedures.   
 

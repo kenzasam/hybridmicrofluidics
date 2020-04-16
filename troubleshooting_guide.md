@@ -17,6 +17,7 @@ You can find all these in setup.ExtGpio!
 * `setup.ExtGpio.init()`: Use this to reset Ardu comm with pins (errors in PE config). Re-run ArduBridge after you did this.
 
 ### CHECKING ARDU BRIDGE AND ARDUINO CONNECTION
+
 You can find all these in ardu!
 * `ardu.GetID`:
   check if there is communication with Arduino
@@ -26,5 +27,6 @@ You can find all these in ardu!
   to close or open com port
 
 ### COMMANDS FOR PUMP SYSTEM
+
 * `setup.nem.pump_calibration(setup.nem.pumpID(1))`:
-* `setup.nem.pump_aspirate(setup.nem.pumpID(1), 150)`: 
+* `setup.nem.pump_aspirate(setup.nem.pumpID(1), 150)`:

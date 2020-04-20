@@ -4,13 +4,14 @@
 *by Kenza Samlali, 2019*
 
 ## Contributions and license
+
 This program is released under license GNU GPL v3.
 
 All Python dependencies were written by Guy Soffer (GSOF_ArduBridge).
 ArduBridge, protocol file and ChipViewer are part of the [GSOF_ArduBridge package](), and were edited by Kenza Samlali.
 GUI was written by Kenza Samlali, inspired by Laura Leclerc's LL_GUI.
 Syringe pump integration was written by Kenza Samlali.
-Syringe pump python dependencies are not published here, and can be found [here](https://github.com/psyfood/pyqmix), under GPL v3. The Cetoni QmixSDK with Pump DLL library can be acquired through CETONI. 
+Syringe pump python dependencies are not published here, and can be found [here](https://github.com/psyfood/pyqmix), under GPL v3. The Cetoni QmixSDK with Pump DLL library can be acquired through CETONI.
 
 ## 1. About the content
 
@@ -28,10 +29,12 @@ Next, you will want to make a microfluidic device, in such way that you can assi
 
 We realize the setup of a microfluidic system is not easy, and many possible hardware designs are out there. For an Open Source alternative, we can point to OpenDrop.   
 Most systems however rely on the same basics: a micro-controller, connected to port expanders, connected to optocouplers that open up the path for high AC voltage to reach electrodes.
-This software is written in a way that you could easily change the prot expander addresses, and adapt it to your own "numbering" system.   
+This software is written in a way that you could easily change the port expander addresses, and adapt it to your own "numbering" system.
+Similarly, you can change the syringe pump system, and write a library for your own pump system.
 All the rest this software does, is giving biologists an easy entry to write scripts for automation of microfluidic procedures.   
 
 ### How to set up the software
+
 1. Download the quick_start package and unzip. Place this folder somewhere convenient. Keep all files in the same folder.
 2. Make sure your system is set up correctly. [See installation guide](../install_guide.md).
 2. Change the path in the ChipViewer batch file, to point to the chipviewer.exe. This was installed during your ArduBridge installation.   
@@ -41,6 +44,7 @@ All the rest this software does, is giving biologists an easy entry to write scr
 5. Change the ChipViewer.cfg file: edit it with the coordinates of the electrodes on your Digital Microfluidic device. The numbers represent the specific electrode number.
 
 ### How or when to edit the software
+
 * **Each time you redesign your chip or experiment:**   
 Edit the Protocol file, to include your sequences and functions.   
 Edit the cfg file with your electrode configuration.   
@@ -49,6 +53,7 @@ Edit the cfg file with your electrode configuration.
 Edit the ArduBridge file, depending on what hardware and protocol file you intend to use, and whether you want to work in simulation mode or not.  
 
 ### How to run and use the software
+
 1. Be sure your system is online. Arduino needs to be able to communicate with your PC and the optocouplers. The electrode stack needs to be powered. Any additional instrument, like the pump system, needs to be online too.
 2. Check if ArduBridge is set up correctly. Verify the protocol file it runs on.
 3. Check the ChipViewer file by running it.

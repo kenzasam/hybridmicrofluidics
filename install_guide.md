@@ -5,16 +5,6 @@ by Kenza Samlali
 Windows XP or up
 Python 2.7
 
-## How to set up your automation system
-1. Download the software package and unzip.
-2. Make sure your system is set up correctly for the software. [See system setup](### System setup)
-3. Open the GSOF folder > ArduBridge, and locate setup.py
-4. Run setup.py using IDLE. This will install all dependencies.
-5. Plug in your Arduino
-6. Open GSOF> ArduFW_V11 and double-click the xloader.
-7. Enter the COM port, baud rate and arduino version, and press upload.
-8. You're now ready to roll!
-
 ## Computer System setup
 1. Install Python 2.7. Our software has ben tested on Python 2.7, so we recommend this.
 2. There are several extra packages required for you to be able to use the Chipviewer, GUI, or even ArduBridge.
@@ -28,3 +18,16 @@ for Nemesys on python 2.7: enum34 , [pyqmix](https://github.com/psyfood/pyqmix)
 use the following command: `pip install ...`
 You can find their respective install commands on the pip website.
 5. Optional: Consider using a virtual environment, if you know you might want to use different versions of Python next to each other, or different packages. f.e. for one project you need python 3 with several packages, but for another project you need python 2.7 with other packages.... With a virtual environment, you can install python packages in a specific project folder.
+
+## How to set up your automation system
+1. Download the [GSOF_ArduBridge](https://bitbucket.org/gsoffer/gsof_ardubridge/) repository and unzip
+2. Download the quick_start software package and unzip.
+3. Make sure your system is set up correctly for the software. [See system setup](## Computer System setup)
+4. Open the GSOF_ArduBridge folder > ArduBridge, and locate setup.py
+5. Run setup.py using IDLE. This will install all dependencies.
+6. Place the quick_start package in a convenient location and edit the files to your needs. [See README.md](../quick_start_package/README.md)
+7. Connect an Arduino to your computer.
+8. Open GSOF> ArduFW_V11 and double-click the xloader.
+9. Enter the COM port, baud rate and Arduino version, and press upload. This programs your Arduino.
+10. Make sure all other hardware (syringe pumps, optocoupler stack, function generator, power supply) is connected accordingly.
+11. You're now ready to roll! See ["How to run and use the software"](../quick_start_package/README.md).

@@ -19,6 +19,7 @@ Syringe pump python dependencies are not published here, and can be found [here]
 * Protocol.py: User dependent file. This file contains specific sequences of electrode actuation, functions and code that is related to one specific user or chip. It also includes a syringe pump class.
 * wxChipViewer.bat and .cfg: The ChipViewer is a graphical user interface that shows electrode actuation on a map, and allows users to turn single electrodes on and off.
 * Hybrid_GUI: A graphical user interface for operating a single-cell encapsulating hybrid microfluidic device.
+* requirements.txt: All dependencies to be installed with pip
 
 ## 2. User Guide
 

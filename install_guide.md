@@ -12,20 +12,16 @@ We recommend installation of Pip (a package manager). If you already have Pip (i
 [Tutorial](https://pip.pypa.io/en/stable/installing/). Also, add pip to your env vars if needed. (python/scripts)
 3. You can check which version of pip is installed like this: `pip -V` <br>
 You can update pip like this: `pip install --upgrade pip`
-4. Install following packages:
-pyserial, wxpython, tkinter, pyperclip, numpy,
-for Nemesys on python 2.7: enum34 , [pyqmix](https://github.com/psyfood/pyqmix)
-use the following command: `pip install ...`
-You can find their respective install commands on the pip website.
-5. Optional: Consider using a virtual environment, if you know you might want to use different versions of Python next to each other, or different packages. f.e. for one project you need python 3 with several packages, but for another project you need python 2.7 with other packages.... With a virtual environment, you can install python packages in a specific project folder.
+4. Optional: Consider using a virtual environment, if you know you might want to use different versions of Python next to each other, or different packages. f.e. for one project you need python 3 with several packages, but for another project you need python 2.7 with other packages.... With a virtual environment, you can install python packages in a specific project folder.
 
-## How to set up your automation system
-1. Download the [GSOF_ArduBridge](https://bitbucket.org/gsoffer/gsof_ardubridge/) repository and unzip
-2. Download the quick_start software package and unzip.
-3. Make sure your system is set up correctly for the software. [See system setup](## Computer System setup)
+## Installing GSOF_ArduBridge and setting up your automation system
+1. Make sure your system is set up correctly for the software. Use Python 2.7 [See system setup](## Computer System setup)
+2. Download the [GSOF_ArduBridge](https://bitbucket.org/gsoffer/gsof_ardubridge/) repository and unzip.
+3. Download the quick_start software package and unzip. Place the quick_start package in a convenient location.
+4. Install further dependencies needed for this project by running `pip install -r requirements.txt` . If using a virtualenv, install them in the virtualenv.
 4. Open the GSOF_ArduBridge folder > ArduBridge, and locate setup.py
-5. Run setup.py using IDLE. This will install all dependencies.
-6. Place the quick_start package in a convenient location and edit the files to your needs. [See README.md](../quick_start_package/README.md)
+5. Run setup.py . This will install most GSOF_ArduBridge dependencies.
+6. Edit the quick_start_package files to your needs. [See README.md](../quick_start_package/README.md)
 7. Connect an Arduino to your computer.
 8. Open GSOF> ArduFW_V11 and double-click the xloader.
 9. Enter the COM port, baud rate and Arduino version, and press upload. This programs your Arduino.

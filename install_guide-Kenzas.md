@@ -1,5 +1,5 @@
 # Hybrid Microfluidics Software Package Installation Guide
-by Kenza Samlali
+*by Kenza Samlali, 2020*
 
 #### System requirements:
 Windows XP or up

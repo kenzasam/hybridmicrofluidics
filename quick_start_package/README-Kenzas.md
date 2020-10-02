@@ -1,7 +1,7 @@
 # Hybrid Microfluidics Software Package
 # Quick Start Package
 
-*by Kenza Samlali, 2019*
+*by Kenza Samlali, 2020*
 
 ## Contributions and license
 
